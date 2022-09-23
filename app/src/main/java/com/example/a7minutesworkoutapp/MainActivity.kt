@@ -1,33 +1,32 @@
 package com.example.a7minutesworkoutapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.FrameLayout
-import android.widget.Toast
+import com.example.a7minutesworkoutapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
-    private var flStart: FrameLayout? = null
+    private var mActivity: ActivityMainBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initializeViews()
+        mActivity = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mActivity?.root)
+
         setOnClick()
     }
 
-    private fun initializeViews() {
-        flStart = findViewById(R.id.fl_activity_main_start)
+    private fun setOnClick() {
+        mActivity?.flActivityMainStart?.setOnClickListener {
+            val intent = Intent(this,ExerciseActivity::class.java)
+            startActivity(intent)
+        }
     }
 
-    private fun setOnClick() {
-        flStart?.setOnClickListener {
-            Snackbar.make(
-                findViewById(R.id.fl_activity_main_start),
-                "Button touched",
-                Snackbar.LENGTH_SHORT
-            ).show()
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        mActivity = null
     }
 }
