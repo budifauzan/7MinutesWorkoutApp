@@ -18,21 +18,21 @@
         app:titleTextColor="@color/colorPrimary" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_activity_exercise_title"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GET READY FOR"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/fl_activity_exercise_timer"
+        app:layout_constraintBottom_toTopOf="@+id/fl_activity_exercise_timer_rest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_activity_exercise_toolbar"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <FrameLayout
-        android:id="@+id/fl_activity_exercise_timer"
+        android:id="@+id/fl_activity_exercise_timer_rest"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="16dp"
@@ -40,7 +40,78 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/tv_activity_exercise_title">
+
+        <ProgressBar
+            android:id="@+id/pb_activity_exercise_progress_rest"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circular_progress_bar_grey"
+            android:indeterminate="false"
+            android:max="10"
+            android:progress="100"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:rotation="-90" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:background="@drawable/item_circular_color_accent_background">
+
+            <TextView
+                android:id="@+id/tv_activity_exercise_timer_rest"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="20" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/TextView1"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="UPCOMING EXERCISE:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_activity_exercise_timer_rest">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tv_activity_exercise_upcoming_exercise"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TextView1"
+        tools:text="JUMPING JACKS">
+
+    </TextView>
+
+    <FrameLayout
+        android:id="@+id/fl_activity_exercise_timer"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/item_circular_color_accent_border"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_activity_exercise_name"
+        tools:visibility="visible">
 
         <ProgressBar
             android:id="@+id/pb_activity_exercise_progress"
@@ -49,8 +120,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/circular_progress_bar_grey"
             android:indeterminate="false"
-            android:max="10"
-            android:progress="100"
+            android:max="30"
+            android:progress="300"
             android:progressDrawable="@drawable/circular_progress_bar"
             android:rotation="-90" />
 
@@ -74,4 +145,33 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_activity_exercise_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_activity_exercise_toolbar"
+        app:srcCompat="@drawable/ic_jumping_jacks"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_activity_exercise_name"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="EXERCISE"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_activity_exercise_image"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
