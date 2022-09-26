@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="GET READY FOR"
         android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/fl_activity_exercise_timer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
