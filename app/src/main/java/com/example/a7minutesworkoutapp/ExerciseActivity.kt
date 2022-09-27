@@ -1,13 +1,19 @@
 package com.example.a7minutesworkoutapp
 
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import com.example.a7minutesworkoutapp.databinding.ActivityExerciseBinding
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ExerciseActivity : AppCompatActivity() {
+class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var mActivity: ActivityExerciseBinding? = null
 
@@ -15,6 +21,8 @@ class ExerciseActivity : AppCompatActivity() {
     private var restProgress = 0
     private var exerciseTimer: CountDownTimer? = null
     private var exerciseProgress = 0
+    private var tts: TextToSpeech? = null
+    private var player: MediaPlayer? = null
 
     private var exerciseList: ArrayList<ExerciseModel>? = null
     private var index = -1
@@ -25,6 +33,8 @@ class ExerciseActivity : AppCompatActivity() {
         setContentView(mActivity?.root)
 
         exerciseList = Constant.getExercises()
+        tts = TextToSpeech(this, this)
+
 
         setToolbar()
         setupRestView()
@@ -97,6 +107,17 @@ class ExerciseActivity : AppCompatActivity() {
             restTimer!!.cancel()
             restProgress = 0
         }
+
+        try {
+            val soundURI =
+                Uri.parse("android.resource://com.example.a7minutesworkoutapp/" + R.raw.press_start)
+            player = MediaPlayer.create(this, soundURI)
+            player?.isLooping = false
+            player?.start()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         setRestProgressBar()
     }
 
@@ -115,7 +136,12 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseTimer!!.cancel()
             exerciseProgress = 0
         }
+        speakOut(exerciseList!![index].name)
         setExerciseProgressBar()
+    }
+
+    private fun speakOut(text: String) {
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
     override fun onDestroy() {
@@ -128,7 +154,26 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseTimer!!.cancel()
             exerciseProgress = 0
         }
+        if (tts != null) {
+            tts?.stop()
+            tts?.shutdown()
+        }
+        if (player != null) {
+            player!!.stop()
+        }
         mActivity = null
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts?.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "The language specified is not supported")
+            }
+        } else {
+            Log.e("TTS", "Initialization failed")
+        }
     }
 
 }
