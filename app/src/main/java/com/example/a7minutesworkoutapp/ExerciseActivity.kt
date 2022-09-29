@@ -1,5 +1,6 @@
 package com.example.a7minutesworkoutapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -12,7 +13,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import com.example.a7minutesworkoutapp.databinding.ActivityExerciseBinding
+import com.example.a7minutesworkoutapp.databinding.DialogCustomBackConfirmationBinding
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 import kotlin.collections.ArrayList
@@ -54,8 +57,26 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
         mActivity?.tbActivityExerciseToolbar?.setNavigationOnClickListener {
-            onBackPressed()
+            backConfirmation()
         }
+    }
+
+    private fun backConfirmation() {
+        val customDialog = Dialog(this)
+        val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
+        customDialog.setContentView(dialogBinding.root)
+        // Set dialog width to match parent
+        val window = customDialog.window
+        window?.setLayout(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT)
+        customDialog.setCanceledOnTouchOutside(false)
+        dialogBinding.btnYes.setOnClickListener {
+            finish()
+            customDialog.dismiss()
+        }
+        dialogBinding.btnNo.setOnClickListener {
+            customDialog.dismiss()
+        }
+        customDialog.show()
     }
 
     private fun setRestProgressBar() {
@@ -190,6 +211,10 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun setRecyclerView() {
         mActivity?.rvExerciseStatus?.adapter = exerciseAdapter
         mActivity?.rvExerciseStatus?.layoutManager = LinearLayoutManager(this, HORIZONTAL, false)
+    }
+
+    override fun onBackPressed() {
+        backConfirmation()
     }
 
 }
