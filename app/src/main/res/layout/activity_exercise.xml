@@ -177,7 +177,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_exercise_status"
         android:layout_width="0dp"
-        android:layout_height="32dp"
+        android:layout_height="36dp"
         android:layout_margin="16dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
