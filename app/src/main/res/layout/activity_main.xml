@@ -13,19 +13,21 @@
         android:layout_height="0dp"
         android:scaleType="centerInside"
         android:src="@drawable/img_main_page"
+        app:layout_constraintBottom_toTopOf="@+id/fl_activity_main_start"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <FrameLayout
         android:id="@+id/fl_activity_main_start"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:background="@drawable/item_color_accent_border_ripple"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"

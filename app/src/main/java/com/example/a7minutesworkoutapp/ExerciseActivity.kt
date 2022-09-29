@@ -8,6 +8,9 @@ import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.a7minutesworkoutapp.databinding.ActivityExerciseBinding
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -26,6 +29,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var exerciseList: ArrayList<ExerciseModel>? = null
     private var index = -1
+    private var exerciseAdapter: ExerciseAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +38,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         exerciseList = Constant.getExercises()
         tts = TextToSpeech(this, this)
-
+        exerciseAdapter = ExerciseAdapter(exerciseList!!)
 
         setToolbar()
         setupRestView()
+        setRecyclerView()
     }
 
     private fun setToolbar() {
@@ -62,6 +67,8 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             override fun onFinish() {
                 index++
+                exerciseList!![index].isSelected = true
+                exerciseAdapter?.notifyDataSetChanged()
                 setupExerciseView()
             }
 
@@ -80,6 +87,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             override fun onFinish() {
                 if (index < exerciseList!!.size - 1) {
+                    exerciseList!![index].isSelected = false
+                    exerciseList!![index].isCompleted = true
+                    exerciseAdapter?.notifyDataSetChanged()
                     setupRestView()
                 } else {
                     Snackbar.make(
@@ -174,6 +184,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         } else {
             Log.e("TTS", "Initialization failed")
         }
+    }
+
+    private fun setRecyclerView() {
+        mActivity?.rvExerciseStatus?.adapter = exerciseAdapter
+        mActivity?.rvExerciseStatus?.layoutManager = LinearLayoutManager(this, HORIZONTAL, false)
     }
 
 }

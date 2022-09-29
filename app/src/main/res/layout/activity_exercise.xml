@@ -174,4 +174,15 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_activity_exercise_image"
         tools:visibility="visible" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_exercise_status"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_margin="16dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_exercise_status" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
