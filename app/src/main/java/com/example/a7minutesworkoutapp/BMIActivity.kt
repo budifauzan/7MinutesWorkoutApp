@@ -3,28 +3,35 @@ package com.example.a7minutesworkoutapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.example.a7minutesworkoutapp.databinding.ActivityBmiBinding
 import com.google.android.material.snackbar.Snackbar
-import java.math.BigDecimal
 
 class BMIActivity : AppCompatActivity() {
+
+    companion object {
+        private const val METRIC_UNITS_VIEW = "METRIC_UNITS_VIEW"
+        private const val IMP_UNITS_VIEW = "IMP_UNITS_VIEW"
+    }
+
     private var mActivity: ActivityBmiBinding? = null
+    private var currentView: String = METRIC_UNITS_VIEW
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivity = ActivityBmiBinding.inflate(layoutInflater)
         setContentView(mActivity?.root)
 
         setToolbar()
+        setMetricUnitsView()
         mActivity?.btnCalculate?.setOnClickListener {
-            if (validateMetricUnits()) {
-                val height: Float = mActivity?.etHeight?.text.toString().toFloat() / 100
-                val weight: Float = mActivity?.etWeight?.text.toString().toFloat()
-                val bmi = weight / (height * height)
-                displayBMI(bmi)
+            calculateBMI()
+        }
+        mActivity?.rgUnits?.setOnCheckedChangeListener { _, checkedID: Int ->
+            if (checkedID == R.id.rb_metric) {
+                setMetricUnitsView()
             } else {
-                Snackbar.make(
-                    mActivity!!.root, "Please enter your height and weight!", Snackbar.LENGTH_SHORT
-                ).show()
+                setImperialUnitsView()
             }
         }
     }
@@ -48,6 +55,43 @@ class BMIActivity : AppCompatActivity() {
             isValid = false
         }
         return isValid
+    }
+
+    private fun validateImpUnits(): Boolean {
+        var isValid = true
+        if (mActivity?.etWeightLbs?.text.toString()
+                .isEmpty() || mActivity?.etHeightFeet?.text.toString()
+                .isEmpty() || mActivity?.etHeightInch?.text.toString().isEmpty()
+        ) {
+            isValid = false
+        }
+        return isValid
+    }
+
+    private fun calculateBMI() {
+        if (currentView == METRIC_UNITS_VIEW) {
+            if (validateMetricUnits()) {
+                val weight: Float = mActivity?.etWeight?.text.toString().toFloat()
+                val height: Float = mActivity?.etHeight?.text.toString().toFloat() / 100
+                val bmi = weight / (height * height)
+                displayBMI(bmi)
+            } else {
+                Toast.makeText(this, "Please enter your weight and height", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } else {
+            if (validateImpUnits()) {
+                val weight: Float = mActivity?.etWeightLbs?.text.toString().toFloat()
+                val heightFeet: Float = mActivity?.etHeightFeet?.text.toString().toFloat()
+                val heightInch: Float = mActivity?.etHeightInch?.text.toString().toFloat()
+                val heightValue = heightFeet * 12 + heightInch
+                val bmi = 703 * (weight / (heightValue * heightValue))
+                displayBMI(bmi)
+            } else {
+                Toast.makeText(this, "Please enter your weight and height", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 
     private fun displayBMI(bmi: Float) {
@@ -88,5 +132,40 @@ class BMIActivity : AppCompatActivity() {
         mActivity?.tvBmiType?.text = bmiLabel
         mActivity?.tvBmiDescription?.visibility = View.VISIBLE
         mActivity?.tvBmiDescription?.text = bmiDescription
+    }
+
+    private fun setMetricUnitsView() {
+        currentView = METRIC_UNITS_VIEW
+        mActivity?.tilWeight?.visibility = View.VISIBLE
+        mActivity?.etWeight?.text!!.clear()
+        mActivity?.tilHeight?.visibility = View.VISIBLE
+        mActivity?.etHeight?.text!!.clear()
+
+        mActivity?.tilWeightLbs?.visibility = View.INVISIBLE
+        mActivity?.tilHeightFeet?.visibility = View.INVISIBLE
+        mActivity?.tilHeightInch?.visibility = View.INVISIBLE
+
+        mActivity?.textView6?.visibility = View.INVISIBLE
+        mActivity?.tvBmiValue?.visibility = View.INVISIBLE
+        mActivity?.tvBmiType?.visibility = View.INVISIBLE
+        mActivity?.tvBmiDescription?.visibility = View.INVISIBLE
+    }
+
+    private fun setImperialUnitsView() {
+        currentView = IMP_UNITS_VIEW
+        mActivity?.tilWeightLbs?.visibility = View.VISIBLE
+        mActivity?.etWeightLbs?.text!!.clear()
+        mActivity?.tilHeightFeet?.visibility = View.VISIBLE
+        mActivity?.etHeightFeet?.text!!.clear()
+        mActivity?.tilHeightInch?.visibility = View.VISIBLE
+        mActivity?.etHeightInch?.text!!.clear()
+
+        mActivity?.tilWeight?.visibility = View.INVISIBLE
+        mActivity?.tilHeight?.visibility = View.INVISIBLE
+
+        mActivity?.textView6?.visibility = View.INVISIBLE
+        mActivity?.tvBmiValue?.visibility = View.INVISIBLE
+        mActivity?.tvBmiType?.visibility = View.INVISIBLE
+        mActivity?.tvBmiDescription?.visibility = View.INVISIBLE
     }
 }
