@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/textView"
-            style="@style/TextAppearance.MaterialComponents.Button"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,13 +45,13 @@
         android:layout_height="80dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/item_circular_color_accent_background"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fl_history"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fl_activity_main_start">
 
         <TextView
             android:id="@+id/textView1"
-            style="@style/TextAppearance.MaterialComponents.Button"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -70,8 +70,37 @@
         android:text="Calculator"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/fl_bmi_calculator"
+        app:layout_constraintStart_toStartOf="@id/fl_bmi_calculator"
         app:layout_constraintTop_toBottomOf="@id/fl_bmi_calculator" />
+
+    <FrameLayout
+        android:id="@+id/fl_history"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/item_circular_color_accent_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fl_bmi_calculator"
+        app:layout_constraintTop_toTopOf="@id/fl_bmi_calculator">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_date_range_24" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView7"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="History"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/fl_history"
+        app:layout_constraintStart_toStartOf="@+id/fl_history"
+        app:layout_constraintTop_toBottomOf="@+id/fl_history" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
