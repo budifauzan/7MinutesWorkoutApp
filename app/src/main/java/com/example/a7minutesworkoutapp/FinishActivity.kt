@@ -31,6 +31,11 @@ class FinishActivity : AppCompatActivity() {
         addHistorytoDatabase(historyDAO!!)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mActivity = null
+    }
+
     private fun setToolbar() {
         setSupportActionBar(mActivity?.tbToolbar)
         if (supportActionBar != null) {
